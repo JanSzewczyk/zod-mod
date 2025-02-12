@@ -1,10 +1,15 @@
 {
   "name": "zod-mod",
   "version": "0.0.0",
-  "description": "",
-  "keywords": [],
+  "description": "ZodMod is an extension for Zod that allows you to dynamically modify validation schemas",
+  "keywords": [
+    "zod",
+    "zod-modification",
+    "modification",
+    "zod-extension"
+  ],
   "license": "MIT",
-  "author": "",
+  "author": "Jan Szewczyk (Szum-Tech)",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
