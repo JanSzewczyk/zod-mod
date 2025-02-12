@@ -1,0 +1,110 @@
+name: PR Checks ✅
+
+on:
+  pull_request:
+
+env:
+  NODE_VERSION: 22.x
+
+jobs:
+  type-check:
+    name: TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code 📚
+        uses: actions/checkout@v4
+      - name: Set up Node 🟢
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+      - name: Install packages ⚙️
+        run: npm ci
+      - name: TypeScript Check
+        run: npm ci type-check
+
+  prettier:
+    name: Prettier 🧹
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code 📚
+        uses: actions/checkout@v4
+      - name: Set up Node 🟢
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+      - name: Install packages ⚙️
+        run: npm ci
+      - name: Prettier Check 🧹
+        run: npm run prettier:check
+
+  lint:
+    name: ESlint ⬣
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code 📚
+        uses: actions/checkout@v4
+      - name: Set up Node 🟢
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+      - name: Install dependencies ⚙️
+        run: npm ci
+      - name: Install utils ⚙️
+        run: npm install @microsoft/eslint-formatter-sarif
+      - name: ESlint Check ⬣
+        run: npm run lint:ci
+        continue-on-error: true
+      - name: Upload ESlint results to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: eslint-results.sarif
+          wait-for-processing: true
+
+  build:
+    name: Build 🏗️
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code 📚
+        uses: actions/checkout@v4
+      - name: Set up Node 🟢
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+      - name: Install packages ⚙️
+        run: npm ci
+      - name: Build Check 🏗️
+        run: npm run build
+
+  test:
+    name: Test 🧪
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code 📚
+        uses: actions/checkout@v4
+      - name: Set up Node 🟢
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+      - name: Install packages ⚙️
+        run: npm ci
+      - name: Check Tests 🧪
+        run: npm run test:ci
+
+  dependency-review:
+    name: Dependency Review 👀
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout code 📚
+        uses: actions/checkout@v4
+      - name: Dependency Review 👀
+        uses: actions/dependency-review-action@v4
+        with:
+          comment-summary-in-pr: on-failure
