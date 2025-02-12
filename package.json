@@ -1,0 +1,43 @@
+{
+  "name": "dynamic-zod",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "vitest",
+    "test:ci": "CI=true vitest",
+    "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest --watch",
+    "type-check": "tsc --noEmit",
+    "validation": "tsx watch src/index.ts",
+    "lint": "eslint .",
+    "lint:ci": "eslint . -o eslint-results.sarif -f @microsoft/eslint-formatter-sarif",
+    "lint:fix": "eslint . --fix",
+    "lint:inspect": "npx @eslint/config-inspector@latest"
+  },
+  "devDependencies": {
+    "@szum-tech/eslint-config": "^2.1.5",
+    "@szum-tech/prettier-config": "^1.4.1",
+    "@szum-tech/semantic-release-config": "^2.2.2",
+    "@types/node": "^22.10.2",
+    "@vitest/coverage-v8": "^2.1.8",
+    "@vitest/ui": "^2.1.8",
+    "eslint": "^9.20.1",
+    "happy-dom": "^15.11.7",
+    "prettier": "^3.4.2",
+    "semantic-release": "^24.2.2",
+    "typescript": "^5.7.2",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^2.1.8",
+    "zod": "^3.24.0"
+  },
+  "peerDependencies": {
+    "zod": "^3.24.0"
+  }
+}
