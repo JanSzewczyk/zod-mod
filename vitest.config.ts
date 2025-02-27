@@ -8,7 +8,6 @@ export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {
     globals: true,
-    environment: "happy-dom",
     reporters,
     coverage: {
       provider: "v8"
