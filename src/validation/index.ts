@@ -5,9 +5,9 @@ import { ZodModificationConfigType, type ZodModificationConfig } from "~/types";
 import { notEqualValidation } from "./not-equal";
 
 export function extendSchemaValidation(
-  schema: z.ZodType<any, any>,
+  schema: z.ZodTypeAny,
   { type, ...config }: Omit<ZodModificationConfig, "path">
-): z.ZodEffects<z.ZodType<any, any, any>, any, any> {
+): z.ZodTypeAny {
   switch (type) {
     case ZodModificationConfigType.NOT_EQUAL:
       return notEqualValidation(schema, config);

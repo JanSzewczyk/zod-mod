@@ -1,74 +1,51 @@
-import { z } from "zod";
+import { modifySchema } from "~/modify-schema";
+import { buildBasicSchema } from "~/tests/builders/basic";
+import { buildZodModConfigurationArray } from "~/tests/builders/zod-mod-config";
+import { BasicSchema, RefineBasicSchema } from "~/tests/schemas";
 
-import { modifySchema } from "./modify-schema";
+describe("modifySchema function", () => {
+  test("parses basics schema fields correctly", () => {
+    const basicSchemaBuilder = buildBasicSchema();
+    const testData = basicSchemaBuilder();
 
-const TestSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  ingredients: z.object({
-    id: z.string(),
-    name: z.string()
-  })
-});
+    [BasicSchema, RefineBasicSchema].forEach((schema) => {
+      expect(schema.safeParse(testData).success).toBeTruthy();
 
-describe("test", () => {
-  test("1", () => {
-    const Schema = modifySchema({
-      schema: TestSchema,
-      config: [{ type: "NOT_EQUAL", path: "id", value: "1", errorMessage: "id should not be 1" }]
+      const config = buildZodModConfigurationArray({
+        data: testData,
+        fieldPaths: [
+          "object1.object3.boolean",
+          "string",
+          "object1.string",
+          "object1.boolean",
+          "object1.number",
+          "object2.number",
+          "object2.number",
+          "object1.object3.string",
+          "number",
+          "object2.boolean",
+          "boolean",
+          "object1.object3.number"
+        ]
+      });
+
+      const modifiedSchema = modifySchema({
+        schema,
+        config
+      });
+
+      const validationResult = modifiedSchema.safeParse(testData);
+      expect(validationResult.success).toBeFalsy();
+      expect(validationResult.error?.errors.length).toBe(12);
+
+      const errorMessages = config.map((config) => config.errorMessage);
+      const validationErrorMessages = validationResult.error?.errors.map((error) => error.message);
+      errorMessages.forEach((errorMessage) => {
+        expect(validationErrorMessages).toContainEqual(errorMessage);
+      });
+
+      const validTestData = basicSchemaBuilder({ traits: "valid" });
+      expect(modifiedSchema.safeParse(validTestData).success).toBeTruthy();
     });
-
-    const validationResult = Schema.safeParse({
-      id: "2",
-      name: "Fox",
-      ingredients: {
-        id: "3",
-        name: "leg"
-      }
-    });
-    expect(validationResult.success).toBeTruthy();
-    expect(validationResult.data?.id).toEqual("2");
-
-    const validationResultFailed = Schema.safeParse({
-      id: "1",
-      name: "asdfasdfsa",
-      ingredients: {
-        id: "1",
-        name: "sdasd"
-      }
-    });
-
-    expect(validationResultFailed.success).toBeFalsy();
-    expect(validationResultFailed.error?.errors[0].message).toEqual("id should not be 1");
   });
-  // test("test 2", async ({}) => {
-  //   const Schema = buildZOD({
-  //     schema: TestSchema,
-  //     config: [
-  //       { path: "id", value: "1", errorMessage: "id should not be 1" },
-  //       { path: "ingredients.id", value: "1", errorMessage: "id should not be 1" }
-  //     ]
-  //   });
-  //
-  //   // expect(
-  //   //   Schema.parse({
-  //   //     id: "2",
-  //   //     name: "asdfasdfsa",
-  //   //     ingredients: {
-  //   //       id: "dfsdf",
-  //   //       name: "sdasd"
-  //   //     }
-  //   //   })?.id
-  //   // ).toBe("2");
-  //   expect(
-  //     Schema.parse({
-  //       id: "1",
-  //       name: "asdfasdfsa",
-  //       ingredients: {
-  //         id: "1",
-  //         name: "sdasd"
-  //       }
-  //     })
-  //   ).toEqual(7);
-  // });
 });

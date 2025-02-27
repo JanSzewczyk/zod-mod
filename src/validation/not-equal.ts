@@ -3,7 +3,7 @@ import { type z } from "zod";
 import { type ZodModificationConfig } from "~/types";
 
 export function notEqualValidation(
-  schema: z.ZodType<any, any>,
+  schema: z.ZodTypeAny,
   { value, errorMessage }: Omit<ZodModificationConfig, "type" | "path">
 ) {
   return schema.refine(

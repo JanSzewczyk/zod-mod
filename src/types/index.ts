@@ -5,7 +5,14 @@ export type ZodModificationConfigType = (typeof ZodModificationConfigType)[keyof
 
 export type ZodModificationConfig = {
   type: ZodModificationConfigType;
-  path: string;
+  path: string | Array<string>;
+  value: any;
+  errorMessage: string;
+};
+
+export type ProcessedZodModificationConfig = {
+  type: ZodModificationConfigType;
+  path: Array<string>;
   value: any;
   errorMessage: string;
 };
