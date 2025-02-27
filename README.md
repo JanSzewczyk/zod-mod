@@ -26,12 +26,25 @@ const baseSchema = z.object({
   age: z.number()
 });
 
-const modifiedSchema = modifySchema(baseSchema, {
-  age: { notEqual: 18 }
-});
+const modifiedSchema = modifySchema(baseSchema, [
+  {
+    type: "NOT_EQUAL",
+    path: "age",
+    value: 18,
+    errorMessage: "Age cannot be 18"
+  }
+]);
 
-console.log(modifiedSchema.safeParse({ username: "John", age: 18 }));
-// => Error: "Age cannot be 18"
+console.log(modifiedSchema.parse({ username: "John", age: 18 }));
+// => ZodError: [
+//   {
+//     "code": "custom",
+//     "message": "Age cannot be 18",
+//     "path": [
+//       "age"
+//     ]
+//   }
+// ]
 ```
 
 ## Supported Validations

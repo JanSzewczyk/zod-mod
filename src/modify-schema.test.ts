@@ -29,10 +29,7 @@ describe("modifySchema function", () => {
         ]
       });
 
-      const modifiedSchema = modifySchema({
-        schema,
-        config
-      });
+      const modifiedSchema = modifySchema(schema, config);
 
       const validationResult = modifiedSchema.safeParse(testData);
       expect(validationResult.success).toBeFalsy();

@@ -5,13 +5,7 @@ import { prepareModificationConfigArray } from "~/helpers/modification-configura
 import { type ZodModificationConfig } from "~/types";
 import { extendSchemaValidation } from "~/validation";
 
-export function modifySchema<T extends z.AnyZodObject>({
-  schema,
-  config
-}: {
-  config: Array<ZodModificationConfig>;
-  schema: T;
-}): T {
+export function modifySchema<T extends z.AnyZodObject>(schema: T, config: Array<ZodModificationConfig>): T {
   const processedConfig = prepareModificationConfigArray(config);
 
   let newSchema = schema;
