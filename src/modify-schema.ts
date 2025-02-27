@@ -1,28 +1,27 @@
 import { type z } from "zod";
 
+import { getFieldValidationSchema, setFieldValidationSchema } from "~/helpers/field-schema";
+import { prepareModificationConfigArray } from "~/helpers/modification-configuration";
+import { type ZodModificationConfig } from "~/types";
 import { extendSchemaValidation } from "~/validation";
 
-import { getFieldValidationSchema, setFieldValidationSchema } from "./field-schema";
-import { type ZodModificationConfig } from "./types";
-import { getPath } from "./utils";
-
-export function modifySchema<T extends z.ZodType<any, any>>({
+export function modifySchema<T extends z.AnyZodObject>({
   schema,
   config
 }: {
   config: Array<ZodModificationConfig>;
   schema: T;
 }): T {
+  const processedConfig = prepareModificationConfigArray(config);
+
   let newSchema = schema;
 
-  config.forEach(({ path, ...restConfig }) => {
-    const arrayPath = getPath(path);
-    const fieldSchema = getFieldValidationSchema(newSchema, arrayPath);
+  processedConfig.forEach(({ path, ...restConfig }) => {
+    const fieldSchema = getFieldValidationSchema(newSchema, path);
 
     const updatedFieldSchema = extendSchemaValidation(fieldSchema, restConfig);
 
-    // @ts-ignore
-    newSchema = setFieldValidationSchema(newSchema, arrayPath, updatedFieldSchema);
+    newSchema = setFieldValidationSchema(newSchema, path, updatedFieldSchema) as T;
   });
 
   return newSchema;

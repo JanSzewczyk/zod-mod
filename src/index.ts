@@ -1,2 +1,2 @@
 export * from "./modify-schema";
-export * from "./types";
+export { ZodModificationConfigType, type ZodModificationConfig } from "./types";

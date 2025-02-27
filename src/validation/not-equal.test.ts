@@ -56,69 +56,48 @@ describe("notEqualValidation function", () => {
   });
 
   describe("array based validation", () => {
-    function checkStringArrayValidation(schema: z.ZodType<any, any>) {
-      const newSchema = notEqualValidation(schema, {
-        value: ["a", "b", "c"],
-        errorMessage: 'Value should not be equal to \'["a", "b", "c"]\''
+    test("builds correct string array validator", () => {
+      [
+        z.array(z.string()),
+        z.string().array(),
+        z.array(z.string()).refine((val) => val.length > 1, { message: "Value should be longer than 1" }),
+        z
+          .string()
+          .array()
+          .refine((val) => val.length > 1, { message: "Value should be longer than 1" })
+      ].forEach((testSchema) => {
+        const newSchema = notEqualValidation(testSchema, {
+          value: ["a", "b", "c"],
+          errorMessage: 'Value should not be equal to \'["a", "b", "c"]\''
+        });
+        expect(newSchema.safeParse(["a", "c"]).success).toBeTruthy();
+        expect(newSchema.safeParse(["a", "c", "b"]).success).toBeFalsy();
+        expect(newSchema.safeParse(["a", "c", "b"])?.error?.errors?.[0]?.message).toEqual(
+          'Value should not be equal to \'["a", "b", "c"]\''
+        );
       });
-      expect(newSchema.safeParse(["a", "c"]).success).toBeTruthy();
-      expect(newSchema.safeParse(["a", "c", "b"]).success).toBeFalsy();
-      expect(newSchema.safeParse(["a", "c", "b"])?.error?.errors?.[0]?.message).toEqual(
-        'Value should not be equal to \'["a", "b", "c"]\''
-      );
-    }
-
-    test("builds correct string array validator, for common base schema", () => {
-      const testSchema = z.array(z.string());
-      checkStringArrayValidation(testSchema);
-
-      const testSchema2 = z.string().array();
-      checkStringArrayValidation(testSchema2);
     });
 
-    test("builds correct string array validator, for refined schema", () => {
-      const testSchema = z
-        .array(z.string())
-        .refine((val) => val.length > 1, { message: "Value should be longer than 1" });
-      checkStringArrayValidation(testSchema);
-
-      const testSchema2 = z
-        .string()
-        .array()
-        .refine((val) => val.length > 1, { message: "Value should be longer than 1" });
-      checkStringArrayValidation(testSchema2);
-    });
-
-    function checkNumberArrayValidation(schema: z.ZodType<any, any>) {
-      const newSchema = notEqualValidation(schema, {
-        value: [1, 2, 3],
-        errorMessage: "Value should not be equal to '[1, 2, 3]'"
+    test("builds correct number array validator", () => {
+      [
+        z.array(z.number()),
+        z.number().array(),
+        z.array(z.number()).refine((val) => val.length > 1, { message: "Value should be longer than 1" }),
+        z
+          .number()
+          .array()
+          .refine((val) => val.length > 1, { message: "Value should be longer than 1" })
+      ].forEach((testSchema) => {
+        const newSchema = notEqualValidation(testSchema, {
+          value: [1, 2, 3],
+          errorMessage: "Value should not be equal to '[1, 2, 3]'"
+        });
+        expect(newSchema.safeParse([1, 2]).success).toBeTruthy();
+        expect(newSchema.safeParse([3, 1, 2]).success).toBeFalsy();
+        expect(newSchema.safeParse([3, 1, 2])?.error?.errors?.[0]?.message).toEqual(
+          "Value should not be equal to '[1, 2, 3]'"
+        );
       });
-      expect(newSchema.safeParse([1, 2]).success).toBeTruthy();
-      expect(newSchema.safeParse([3, 1, 2]).success).toBeFalsy();
-      expect(newSchema.safeParse([3, 1, 2])?.error?.errors?.[0]?.message).toEqual(
-        "Value should not be equal to '[1, 2, 3]'"
-      );
-    }
-    test("builds correct number array validator, for common base schema", () => {
-      const testSchema = z.array(z.number());
-      checkNumberArrayValidation(testSchema);
-
-      const testSchema2 = z.number().array();
-      checkNumberArrayValidation(testSchema2);
-    });
-
-    test("builds correct number array validator, for refined schema", () => {
-      const testSchema = z
-        .array(z.number())
-        .refine((val) => val.length > 1, { message: "Value should be longer than 1" });
-      checkNumberArrayValidation(testSchema);
-
-      const testSchema2 = z
-        .number()
-        .array()
-        .refine((val) => val.length > 1, { message: "Value should be longer than 1" });
-      checkNumberArrayValidation(testSchema2);
     });
   });
 });

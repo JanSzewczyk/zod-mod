@@ -1,4 +1,4 @@
-import { getPath } from "./utils";
+import { getPath } from "./path";
 
 describe("getPath function", () => {
   test("should return empty array", ({}) => {
