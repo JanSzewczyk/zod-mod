@@ -3,16 +3,14 @@ export const ZodModificationConfigType = {
 } as const;
 export type ZodModificationConfigType = (typeof ZodModificationConfigType)[keyof typeof ZodModificationConfigType];
 
-export type ZodModificationConfig = {
-  type: ZodModificationConfigType;
-  path: string | Array<string>;
-  value: any;
-  errorMessage: string;
-};
+type ZodModificationConfigValueTypes = null | undefined | string | number | boolean;
+export type ZodModificationConfigValue = ZodModificationConfigValueTypes | Array<ZodModificationConfigValueTypes>;
 
-export type ProcessedZodModificationConfig = {
+type ZodModificationConfigBase<Path> = {
   type: ZodModificationConfigType;
-  path: Array<string>;
-  value: any;
+  path: Path;
+  value: ZodModificationConfigValue;
   errorMessage: string;
 };
+export type ZodModificationConfig = ZodModificationConfigBase<string | Array<string>>;
+export type ProcessedZodModificationConfig = ZodModificationConfigBase<Array<string>>;

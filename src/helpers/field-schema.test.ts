@@ -34,12 +34,14 @@ describe("getFieldValidationSchema function", () => {
   });
 
   test("should throw an error, when incorrect path", () => {
-    expect(() => getFieldValidationSchema(TestSchema, ["notpath"])).toThrowError("Field 'notpath' not found in schema");
+    expect(() => getFieldValidationSchema(TestSchema, ["notpath"])).toThrowError(
+      "Field 'notpath' in 'notpath' not found in schema"
+    );
     expect(() => getFieldValidationSchema(TestSchema, ["secondLevel", "notpath"])).toThrowError(
-      "Field 'secondLevel.notpath' not found in schema"
+      "Field 'notpath' in 'secondLevel.notpath' not found in schema"
     );
     expect(() => getFieldValidationSchema(TestSchema, ["secondLevel", "thirdLevel", "notpath"])).toThrowError(
-      "Field 'secondLevel.thirdLevel.notpath' not found in schema"
+      "Field 'notpath' in 'secondLevel.thirdLevel.notpath' not found in schema"
     );
   });
 
