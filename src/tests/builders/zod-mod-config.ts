@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import * as _ from "lodash-es";
 
 import { faker } from "@faker-js/faker/locale/pl";
 import { build, oneOf, perBuild } from "@jackfranklin/test-data-bot";

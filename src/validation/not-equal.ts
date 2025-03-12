@@ -1,6 +1,6 @@
 import { type z } from "zod";
 
-import { type ZodModificationConfig } from "~/types";
+import { type ZodModificationConfig, type ZodModificationConfigValueTypes } from "~/types";
 
 export function notEqualValidation(
   schema: z.ZodTypeAny,
@@ -8,7 +8,7 @@ export function notEqualValidation(
 ) {
   return schema.refine(
     (val) => {
-      if (Array.isArray(val)) {
+      if (Array.isArray(val) && Array.isArray(value)) {
         return !arraysEqual(val, value);
       }
       return val !== value;
@@ -17,7 +17,7 @@ export function notEqualValidation(
   );
 }
 
-function arraysEqual(arr1: Array<string | number>, arr2: Array<string | number>) {
+function arraysEqual(arr1: Array<string | number>, arr2: Array<ZodModificationConfigValueTypes>) {
   if (arr1.length !== arr2.length) {
     return false;
   }
