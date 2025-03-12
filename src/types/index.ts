@@ -3,7 +3,7 @@ export const ZodModificationConfigType = {
 } as const;
 export type ZodModificationConfigType = (typeof ZodModificationConfigType)[keyof typeof ZodModificationConfigType];
 
-type ZodModificationConfigValueTypes = null | undefined | string | number | boolean;
+export type ZodModificationConfigValueTypes = null | undefined | string | number | boolean;
 export type ZodModificationConfigValue = ZodModificationConfigValueTypes | Array<ZodModificationConfigValueTypes>;
 
 type ZodModificationConfigBase<Path> = {
