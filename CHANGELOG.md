@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/JanSzewczyk/zod-mod/compare/v1.0.0...v1.0.1) (2025-03-12)
+
+### Bug Fixes
+
+* **deps:** bump deps ([23d4689](https://github.com/JanSzewczyk/zod-mod/commit/23d4689769694acdeef86047275401205e24b43d))
+* **deps:** bump deps ([5f99713](https://github.com/JanSzewczyk/zod-mod/commit/5f99713441751f28b13b94b021ef06d3030693d6))
+
+### Documentation
+
+* **CODE_OF_CONDUCT:** add `CODE_OF_CONDUCT.md` file ([fa51c35](https://github.com/JanSzewczyk/zod-mod/commit/fa51c353e9be012e0f44c685797dc8f82a72d0aa))
+* **CONTRIBUTING:** add `CONTRIBUTING.md` file ([64f9fdc](https://github.com/JanSzewczyk/zod-mod/commit/64f9fdccd3edcd3b7f5c1994d498f52ce33d1390))
+* **ISSUE_TEMPLATES:** add issue config file ([1c8bce9](https://github.com/JanSzewczyk/zod-mod/commit/1c8bce9515d39b2c9dea4e501528bee6ef4994ee))
+* **ISSUE_tEMPLATES:** add issue templates ([69fc00b](https://github.com/JanSzewczyk/zod-mod/commit/69fc00b6e373005b84a21266b020d5cc315dcc17))
+* **PULL_REQUEST_TEMPLATE:** add `PULL_REQUEST_TEMPLATE.md` file ([ff01fd3](https://github.com/JanSzewczyk/zod-mod/commit/ff01fd3e493fcc6c50c96c5a158e95c2244e5a4b))
+* **SECURITY:** add `SECURITY.md` file ([8a70b56](https://github.com/JanSzewczyk/zod-mod/commit/8a70b569ef8c562c2548685633867cbd30042045))
+
+### Continuous Integration
+
+* **gh-action:** fix script for type check in `PR Checks ✅` GH action ([4af5623](https://github.com/JanSzewczyk/zod-mod/commit/4af5623b60160c7280164512b7e6e78a18af4acf))
+
 ## 1.0.0 (2025-02-27)
 
 ### Features

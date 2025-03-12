@@ -1,6 +1,6 @@
 {
   "name": "zod-mod",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ZodMod is an extension for Zod that allows you to dynamically modify validation schemas",
   "keywords": [
     "zod",
