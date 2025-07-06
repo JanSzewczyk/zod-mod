@@ -51,7 +51,7 @@
     "@szum-tech/prettier-config": "^1.6.1",
     "@szum-tech/semantic-release-config": "^2.3.0",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^22.14.1",
+    "@types/node": "^24.0.10",
     "@vitest/coverage-v8": "^3.1.1",
     "@vitest/ui": "^3.1.1",
     "eslint": "^9.24.0",
